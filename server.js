@@ -5,7 +5,7 @@ const expressLayouts = require('express-ejs-layouts'); // Corrected variable nam
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-
+app.use(express.static('public'))
  // Corrected the middleware usage
 app.get('/', (req, res) => {
     res.render('home');
