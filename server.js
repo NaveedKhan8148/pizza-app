@@ -1,16 +1,17 @@
-const dotenv = require('dotenv').config()
-const session = require('express-session');
-const MongoDBStore = require('connect-mongo')(session);
-const express = require('express');
-const path = require('path');
-const ejs = require('ejs');
-const expressLayouts = require('express-ejs-layouts');
-const mongoose = require('mongoose');
-const flash = require('express-flash');
-const app = express();
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const ejs = require('ejs')
+const path = require('path')
+const expressLayout = require('express-ejs-layouts')
+const PORT = process.env.PORT || 3300
+const mongoose = require('mongoose')
+const session = require('express-session')
+const flash = require('express-flash')
+const MongoDbStore = require('connect-mongo')(session)
 const passport = require('passport')
-const PORT = process.env.PORT || 8000;
 
+// Database connection
 const url = 'mongodb://127.0.0.1:27017/pizza-real-time-app';
 
 // Ensure the MongoDB connection is established
@@ -30,42 +31,46 @@ connection.on('error', (error) => {
 });
 
 // Initialize the MongoDBStore
-const mongoStore = new MongoDBStore({
+const mongoStore = new MongoDbStore({
   mongooseConnection: connection,
   collection: "session",
 });
-// session store 
+// Session config
 app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  store: mongoStore,
-  saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }
+    secret: process.env.COOKIE_SECRET,
+    resave: false, 
+    store: mongoStore,
+    saveUninitialized: false, 
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
 }));
 
-const passportInit = require('./app/config/passport')
+// Passport config
+const passportInit = require('./app/config/passport');
 passportInit(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
-app.use((req,res,next)=>{
-  res.locals.session=req.session
-  res.locals.user = req.user
 
-  next()
-})
-// FOR THE ROUTES CONNECTION
+// Assets
 app.use(express.static('public'));
-app.use(express.json())
-app.use(express.urlencoded({extended:false}))
-app.use(expressLayouts);
-app.set('views', path.join(__dirname, 'resources/views'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Global middleware
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    res.locals.user = req.user;
+    next();
+});
+
+// Set Template engine
+app.use(expressLayout);
+app.set('views', path.join(__dirname, '/resources/views'));
 app.set('view engine', 'ejs');
 
-// Corrected the middleware usage
 require('./routes/web')(app);
 
 app.listen(PORT, () => {
-  console.log(`The server is running on Port No ${PORT}`);
+    console.log(`Listening on port ${PORT}`);
 });

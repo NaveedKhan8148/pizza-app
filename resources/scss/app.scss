@@ -1,85 +1,76 @@
 @import './variables';
-@import "~noty/src/noty.scss";
-@import "~noty/src/themes/mint.scss";
+@import '~noty/src/noty.scss';
+@import '~noty/src/themes/mint.scss';
 
-body{
-    font-family: "Gill Sans Extrabold", sans-serif;
-    -webkit-font-smooting:antialiased;
+body {
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
     color: $dark;
 }
 
 nav li:last-child a {
     background: $primary;
-    &:hover{
-        background : $primary-hover;
+    &:hover {
+        background: $primary-hover;
     }
 }
 
 nav li a {
-    transition:$smooth;
-    
-    &:hover{
+    transition: $smooth;
+    &:hover {
         color: $primary;
     }
 }
-
-section.hero{
+section.hero {
     background: $secondary;
 }
-
-.size{
-    background:$secondary;
+.size {
+    background: $secondary;
 }
-
-.add-to-cart{
+.add-to-cart {
     border: 2px solid $primary;
     color: $primary;
     transition: $smooth;
-    &:hover{
+    &:hover {
         background: $primary;
         border-color: $pure;
         color: $pure;
     }
+    &:focus {
+        outline: none;
+    }
 }
-.btn-primary{
+
+.btn-primary {
     background: $primary;
     transition: $smooth;
-    &:hover{
-        background: $primary;
+    &:hover {
+        background: $primary-hover;
     }
 }
 
-section.cart{
+section.cart {
     background: $secondary;
-
-    .amount{
+    .amount {
         color: $primary;
     }
 }
 
-section.login{
+section.login {
     background: $secondary;
-
-    .login-form{
-        background: $pure;
-    }
-     button{
-        &:hover{
-            background: $primary-hover;
-        }
-     }
-     &:focus{
-        outline: none;
-     }
-    a{
+    min-height: calc(100vh - 86px);
+    a {
         color: $primary;
-        &:hover{
+        &:hover {
             color: $primary-hover;
         }
     }
 }
-.noty_theme__mint{
-    border-radius: 50px !important;
-    padding-left: 8px !important;
+.noty_theme__mint {
+    border-radius: 50px!important;
+    padding-left: 8px!important;
 }
 
+a.link {
+    color: $primary;
+}
